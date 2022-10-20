@@ -1,4 +1,4 @@
-from pokemon import Pokemon
+from app.pokemon import Pokemon
 from pydantic_mongo import AbstractRepository
 
 class PokemonRepository(AbstractRepository[Pokemon]):
