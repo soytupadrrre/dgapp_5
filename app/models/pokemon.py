@@ -3,10 +3,11 @@ from typing import List, Union, Optional
 
 from bson import ObjectId
 from pydantic import BaseModel
-from pydantic_mongo import ObjectIdField
+from pydantic_mongo import ObjectIdField, AbstractRepository
 import vlm_pypoke
 
 client = vlm_pypoke.PokeClient()
+
 
 class Pokemon(BaseModel):
     id: ObjectIdField = None
@@ -36,6 +37,10 @@ class Pokemon(BaseModel):
     
     class Config:
         json_encoders = {ObjectId: str}
+
+class PokemonRepository(AbstractRepository[Pokemon]):
+    class Meta:
+        collection_name = "pokemons"
 
 def create_pokemon(value: Union[str, int]) -> Optional[Pokemon]:
     if isinstance(value, str):
@@ -94,4 +99,3 @@ def create_pokemon(value: Union[str, int]) -> Optional[Pokemon]:
 
     except Exception:
         return None
-print(create_pokemon("pikachu").dict())
